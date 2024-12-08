@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de Codes Robux</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #0a0a0a;
+            font-family: 'Arial', sans-serif;
+            color: white;
+        }
+
+        .container {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(15, 15, 15, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+            max-width: 90%;
+            width: 600px;
+        }
+
+        h1 {
+            color: #00ffff;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        .btn-generate {
+            background: linear-gradient(45deg, #0066ff, #00ffaa);
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 2rem 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-generate:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+        }
+
+        .btn-generate:before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(45deg);
+            transition: all 0.3s ease;
+        }
+
+        .btn-generate:hover:before {
+            left: 100%;
+        }
+
+        .code-display {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.5rem;
+            color: #00ff88;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .code-display.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .code-display {
+                font-size: 1.2rem;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Générateur de Codes Robux</h1>
+        <button class="btn-generate">
+            <i class="fas fa-sync-alt"></i> Générer un code
+        </button>
+        <div class="code-display" id="codeDisplay"></div>
+    </div>
+
+    <script>
+        const generateButton = document.querySelector('.btn-generate');
+        const codeDisplay = document.querySelector('.code-display');
+
+        function generateCode() {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = '';
+            
+            for (let i = 0; i < 4; i++) {
+                for (let j = 0; j < 4; j++) {
+                    code += characters.charAt(Math.floor(Math.random() * characters.length));
+                }
+                if (i < 3) code += '-';
+            }
+            
+            return code;
+        }
+
+        generateButton.addEventListener('click', () => {
+            const newCode = generateCode();
+            codeDisplay.textContent = newCode;
+            
+            // Reset animation
+            codeDisplay.classList.remove('visible');
+            void codeDisplay.offsetWidth; // Force reflow
+            codeDisplay.classList.add('visible');
+            
+            // Add button animation
+            generateButton.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                generateButton.style.transform = 'scale(1)';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
